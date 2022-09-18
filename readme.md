@@ -30,3 +30,38 @@ Feel free to make a PR and help out!
 - [ ] Add better test file than the current dropbox link in the index.html test file
 - [ ] Add tests
 - [ ] add more to this todo list
+
+
+## How to use
+
+Using babylonjs libraries
+```js
+import 'babylonjs';
+import {FBXLoader} from "babylonjs-fbx-loader"
+
+if (BABYLON.SceneLoader) {
+  //Add this loader into the register plugin
+  BABYLON.SceneLoader.RegisterPlugin(new FBXLoader())
+}
+
+[...]
+
+
+let mesh = await BABYLON.SceneLoader.ImportMeshAsync(null, 'path/to', 'filename.fbx', scene)
+```
+
+Using ES6 babylon libraries
+
+```js
+import {FBXLoader} from "babylonjs-fbx-loader"
+import {SceneLoader} from "@babylonjs/core"
+
+if (SceneLoader) {
+  //Add this loader into the register plugin
+  SceneLoader.RegisterPlugin(new FBXLoader())
+}
+
+[...]
+
+let mesh = await SceneLoader.ImportMeshAsync(null, 'path/to', 'filename.fbx', scene)
+```
