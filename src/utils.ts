@@ -1,6 +1,6 @@
-import { Matrix, Quaternion, Vector3 } from "@babylonjs/core";
+import { Matrix, Quaternion, Vector3 } from '@babylonjs/core'
 
-import { IFBXTransformData } from "./node/transform";
+import { IFBXTransformData } from './node/transform'
 
 export class FBXUtils {
   /**
@@ -9,8 +9,8 @@ export class FBXUtils {
    * @returns the reference to the result quaternion.
    */
   public static GetFinalRotationQuaternion(rotation: Quaternion): Quaternion {
-    const r = rotation.toEulerAngles();
-    return this.GetFinalRotationQuaternionFromVector(r);
+    const r = rotation.toEulerAngles()
+    return this.GetFinalRotationQuaternionFromVector(r)
   }
 
   /**
@@ -18,15 +18,13 @@ export class FBXUtils {
    * @param rotation defines the reference to the rotation vector.
    * @returns the reference to the result quaternion.
    */
-  public static GetFinalRotationQuaternionFromVector(
-    rotation: Vector3
-  ): Quaternion {
-    const x = Quaternion.RotationAxis(Vector3.Left(), rotation.x);
-    const y = Quaternion.RotationAxis(Vector3.Up(), rotation.y);
-    const z = Quaternion.RotationAxis(Vector3.Forward(), rotation.z);
-    const q = Quaternion.Inverse(x.multiply(y).multiply(z));
+  public static GetFinalRotationQuaternionFromVector(rotation: Vector3): Quaternion {
+    const x = Quaternion.RotationAxis(Vector3.Left(), rotation.x)
+    const y = Quaternion.RotationAxis(Vector3.Up(), rotation.y)
+    const z = Quaternion.RotationAxis(Vector3.Forward(), rotation.z)
+    const q = Quaternion.Inverse(x.multiply(y).multiply(z))
 
-    return q;
+    return q
   }
 
   /**
@@ -34,34 +32,27 @@ export class FBXUtils {
    * @param matrix defines the reference to the matrix to configure.
    * @returns the reference to the new matrix configured.
    */
-  public static GetMatrix(
-    matrix: Matrix,
-    transformData: IFBXTransformData
-  ): Matrix {
-    const scale = Vector3.Zero();
-    const rotation = Quaternion.Identity();
-    const translation = Vector3.Zero();
+  public static GetMatrix(matrix: Matrix, transformData: IFBXTransformData): Matrix {
+    const scale = Vector3.Zero()
+    const rotation = Quaternion.Identity()
+    const translation = Vector3.Zero()
 
-    matrix.decompose(scale, rotation, translation);
+    matrix.decompose(scale, rotation, translation)
 
-    translation.x = -translation.x;
+    translation.x = -translation.x
 
-    let finalRotation = FBXUtils.GetFinalRotationQuaternion(rotation);
+    let finalRotation = FBXUtils.GetFinalRotationQuaternion(rotation)
 
     if (transformData.preRotation) {
-      const pre = FBXUtils.GetFinalRotationQuaternionFromVector(
-        transformData.preRotation
-      );
-      finalRotation = pre.multiply(finalRotation);
+      const pre = FBXUtils.GetFinalRotationQuaternionFromVector(transformData.preRotation)
+      finalRotation = pre.multiply(finalRotation)
     }
 
     if (transformData.postRotation) {
-      const post = FBXUtils.GetFinalRotationQuaternionFromVector(
-        transformData.postRotation
-      );
-      finalRotation = finalRotation.multiply(Quaternion.Inverse(post));
+      const post = FBXUtils.GetFinalRotationQuaternionFromVector(transformData.postRotation)
+      finalRotation = finalRotation.multiply(Quaternion.Inverse(post))
     }
 
-    return Matrix.Compose(scale, finalRotation.normalize(), translation);
+    return Matrix.Compose(scale, finalRotation.normalize(), translation)
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "babylonjs-fbx-loader",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An FBX loader for BABYLONJS",
   "lib": "dist/src/index.d.ts",
   "main": "dist/src/index.js",
@@ -14,7 +14,12 @@
     "postversion": "git push origin && git push origin --tags",
     "all": "npm run prepare && npm run version && npm run postversion"
   },
-  "keywords": ["FBX","loader","babylonjs","threejs"],
+  "keywords": [
+    "FBX",
+    "loader",
+    "babylonjs",
+    "threejs"
+  ],
   "author": "Benjythebee",
   "license": "ISC",
   "files": [

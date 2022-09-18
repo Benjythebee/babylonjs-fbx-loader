@@ -1,30 +1,30 @@
-import { IStringDictionary } from "../types";
+import { IStringDictionary } from '../types'
 
-import { FBXReaderNode } from "fbx-parser";
-import { Matrix, Skeleton, Scene, Bone, AbstractMesh } from "@babylonjs/core";
+import { FBXReaderNode } from 'fbx-parser'
+import { Matrix, Skeleton, Scene, Bone, AbstractMesh } from '@babylonjs/core'
 
-import { IFBXLoaderRuntime } from "../loader";
-import { IFBXConnections } from "../connections";
+import { IFBXLoaderRuntime } from '../loader'
+import { IFBXConnections } from '../connections'
 
-import { FBXTransform } from "../node/transform";
+import { FBXTransform } from '../node/transform'
 
 export interface IRawBone {
-  id: number;
+  id: number
 
-  indices: number[];
-  weights: number[];
+  indices: number[]
+  weights: number[]
 
-  transform: Matrix;
-  transformLink: Matrix;
+  transform: Matrix
+  transformLink: Matrix
 }
 
 export interface IFBXSkeleton {
-  id: number;
+  id: number
 
-  bones: Bone[];
-  rawBones: IRawBone[];
+  bones: Bone[]
+  rawBones: IRawBone[]
 
-  skeletonInstance: Skeleton;
+  skeletonInstance: Skeleton
 }
 
 export class FBXSkeleton {
@@ -34,25 +34,23 @@ export class FBXSkeleton {
    */
   public static ParseRawSkeletons(runtime: IFBXLoaderRuntime): void {
     for (const d of runtime.deformers) {
-      const deformerId = d.prop(0, "number")!;
-      const deformerType = d.prop(2, "string");
+      const deformerId = d.prop(0, 'number')!
+      const deformerType = d.prop(2, 'string')
 
-      const relationShips = runtime.connections.get(deformerId);
+      const relationShips = runtime.connections.get(deformerId)
 
-      if (deformerType === "Skin") {
-        const id = d.prop(0, "number")!;
-        const name = d.prop(1, "string")!;
+      if (deformerType === 'Skin') {
+        const id = d.prop(0, 'number')!
+        const name = d.prop(1, 'string')!
 
-        const existingSkeleton = runtime.cachedSkeletons[id];
+        const existingSkeleton = runtime.cachedSkeletons[id]
 
         if (!existingSkeleton) {
-          const bones = runtime.deformers.filter((d) =>
-            relationShips?.children.find((r) => r.id === d.prop(0, "number"))
-          );
-          const skeleton = this._GetRawSkeleton(id, name, bones, runtime.scene);
+          const bones = runtime.deformers.filter((d) => relationShips?.children.find((r) => r.id === d.prop(0, 'number')))
+          const skeleton = this._GetRawSkeleton(id, name, bones, runtime.scene)
 
-          runtime.cachedSkeletons[id] = skeleton;
-          runtime.result.skeletons.push(skeleton.skeletonInstance);
+          runtime.cachedSkeletons[id] = skeleton
+          runtime.result.skeletons.push(skeleton.skeletonInstance)
         }
       }
     }
@@ -61,42 +59,35 @@ export class FBXSkeleton {
   /**
    * Returns the parsed raw skeleton to be built later inline with the geometries.
    */
-  private static _GetRawSkeleton(
-    id: number,
-    name: string,
-    deformers: FBXReaderNode[],
-    scene: Scene
-  ): IFBXSkeleton {
-    const rawBones: IRawBone[] = [];
+  private static _GetRawSkeleton(id: number, name: string, deformers: FBXReaderNode[], scene: Scene): IFBXSkeleton {
+    const rawBones: IRawBone[] = []
 
     deformers.forEach((d) => {
-      if (d.prop(2, "string") !== "Cluster") {
-        return;
+      if (d.prop(2, 'string') !== 'Cluster') {
+        return
       }
 
       const rawBone: IRawBone = {
-        id: d.prop(0, "number")!,
+        id: d.prop(0, 'number')!,
 
-        indices: d.node("Indexes")?.prop(0, "number[]") ?? [],
-        weights: d.node("Weights")?.prop(0, "number[]") ?? [],
+        indices: d.node('Indexes')?.prop(0, 'number[]') ?? [],
+        weights: d.node('Weights')?.prop(0, 'number[]') ?? [],
 
-        transform: Matrix.FromArray(d.node("Transform")!.prop(0, "number[]")!),
-        transformLink: Matrix.FromArray(
-          d.node("TransformLink")!.prop(0, "number[]")!
-        ),
-      };
+        transform: Matrix.FromArray(d.node('Transform')!.prop(0, 'number[]')!),
+        transformLink: Matrix.FromArray(d.node('TransformLink')!.prop(0, 'number[]')!),
+      }
 
-      rawBones.push(rawBone);
-    });
+      rawBones.push(rawBone)
+    })
 
-    const skeletonInstance = new Skeleton(name, 0 as any, scene);
+    const skeletonInstance = new Skeleton(name, 0 as any, scene)
 
     return {
       id,
       rawBones,
       bones: [],
       skeletonInstance,
-    };
+    }
   }
 
   /**
@@ -106,42 +97,35 @@ export class FBXSkeleton {
    * @param connections defines the relationships of the FBX model node.
    * @returns the reference to the last bone created.
    */
-  public static CheckSkeleton(
-    runtime: IFBXLoaderRuntime,
-    model: FBXReaderNode,
-    name: string,
-    connections: IFBXConnections
-  ): void {
+  public static CheckSkeleton(runtime: IFBXLoaderRuntime, model: FBXReaderNode, name: string, connections: IFBXConnections): void {
     connections.parents.forEach((p) => {
       for (const skeletonId in runtime.cachedSkeletons) {
-        const skeleton = runtime.cachedSkeletons[skeletonId];
+        const skeleton = runtime.cachedSkeletons[skeletonId]
 
         skeleton.rawBones.forEach((b, index) => {
           if (b.id !== p.id) {
-            return;
+            return
           }
 
-          const boneId = model.prop(0, "number")!.toString();
-          const boneName = `${skeleton.skeletonInstance.name}-${name}`;
+          const boneId = model.prop(0, 'number')!.toString()
+          const boneName = `${skeleton.skeletonInstance.name}-${name}`
 
-          if (
-            skeleton.skeletonInstance.bones.find((b) => b.name === boneName)
-          ) {
-            return;
+          if (skeleton.skeletonInstance.bones.find((b) => b.name === boneName)) {
+            return
           }
 
-          const bone = new Bone(boneName, skeleton.skeletonInstance);
-          bone.id = boneId;
-          bone._index = index;
+          const bone = new Bone(boneName, skeleton.skeletonInstance)
+          bone.id = boneId
+          bone._index = index
 
           // Bones can be shared, let's parse transform here.
-          FBXTransform.ParseTransform(bone, model);
-          bone.metadata.connections = connections;
+          FBXTransform.ParseTransform(bone, model)
+          bone.metadata.connections = connections
 
-          skeleton.bones[index] = bone;
-        });
+          skeleton.bones[index] = bone
+        })
       }
-    });
+    })
   }
 
   /**
@@ -149,44 +133,42 @@ export class FBXSkeleton {
    * @param runtime defines the reference to the current FBX runtime.
    */
   public static BindSkeletons(runtime: IFBXLoaderRuntime): void {
-    const poseMatrices: IStringDictionary<Matrix> = {};
+    const poseMatrices: IStringDictionary<Matrix> = {}
 
     // Parse pose matrices
-    const bindPoseNodes = runtime.objects.nodes("Pose");
+    const bindPoseNodes = runtime.objects.nodes('Pose')
     bindPoseNodes.forEach((bpn) => {
-      const poseNodes = bpn.nodes("PoseNode");
+      const poseNodes = bpn.nodes('PoseNode')
       poseNodes.forEach((pn) => {
-        const nodeId = pn.node("Node")!.prop(0, "number")!;
-        const matrix = pn.node("Matrix")!.prop(0, "number[]")!;
+        const nodeId = pn.node('Node')!.prop(0, 'number')!
+        const matrix = pn.node('Matrix')!.prop(0, 'number[]')!
 
-        poseMatrices[nodeId] = Matrix.FromArray(matrix);
-      });
-    });
+        poseMatrices[nodeId] = Matrix.FromArray(matrix)
+      })
+    })
 
     // Compute parenting, matrices and assign
     for (const skeletonId in runtime.cachedSkeletons) {
-      const skeleton = runtime.cachedSkeletons[skeletonId];
+      const skeleton = runtime.cachedSkeletons[skeletonId]
 
       for (const b of skeleton.skeletonInstance.bones) {
-        const boneIndex = b._index ?? -1;
-        const rawBone = skeleton.rawBones[boneIndex];
+        const boneIndex = b._index ?? -1
+        const rawBone = skeleton.rawBones[boneIndex]
         if (!rawBone) {
-          continue;
+          continue
         }
 
         // Parenting
-        const connections = b.metadata.connections as IFBXConnections;
+        const connections = b.metadata.connections as IFBXConnections
         connections?.parents.forEach((p) => {
-          const parentBone = skeleton.skeletonInstance.bones.find(
-            (b) => b.id === p.id.toString()
-          );
+          const parentBone = skeleton.skeletonInstance.bones.find((b) => b.id === p.id.toString())
           if (parentBone) {
-            b.setParent(parentBone);
+            b.setParent(parentBone)
           }
-        });
+        })
 
         // const transformData = FBXTransform.GetTransformData(b);
-        FBXTransform.ApplyTransform(b);
+        FBXTransform.ApplyTransform(b)
 
         /*
 				let baseMatrix = Matrix.Identity();
@@ -200,36 +182,36 @@ export class FBXSkeleton {
 				}
 				*/
 
-        b.setRestPose(b.getLocalMatrix());
-        b.updateMatrix(b.getLocalMatrix(), false, false);
+        b.setRestPose(b.getLocalMatrix())
+        b.updateMatrix(b.getLocalMatrix(), false, false)
 
-        b._updateDifferenceMatrix(undefined, true);
+        b._updateDifferenceMatrix(undefined, true)
       }
 
       // Assign
-      const parents = runtime.connections.get(parseInt(skeletonId))?.parents;
+      const parents = runtime.connections.get(parseInt(skeletonId))?.parents
       parents?.forEach((p) => {
-        const parents2 = runtime.connections.get(p.id)?.parents;
+        const parents2 = runtime.connections.get(p.id)?.parents
         parents2?.forEach((p) => {
-          const model = runtime.cachedModels[p.id];
+          const model = runtime.cachedModels[p.id]
           if (model && model instanceof AbstractMesh) {
-            const poseMatrix = poseMatrices[p.id];
+            const poseMatrix = poseMatrices[p.id]
             if (poseMatrix && !poseMatrix.isIdentity()) {
-              model.updatePoseMatrix(poseMatrix);
-              skeleton.skeletonInstance.needInitialSkinMatrix = true;
+              model.updatePoseMatrix(poseMatrix)
+              skeleton.skeletonInstance.needInitialSkinMatrix = true
             }
 
-            model.skeleton = skeleton.skeletonInstance;
+            model.skeleton = skeleton.skeletonInstance
 
             model.skeleton.bones.forEach((b) => {
-              b.name = `${model.name}-${b.name}`;
-            });
+              b.name = `${model.name}-${b.name}`
+            })
 
             // model.skeleton.sortBones();
             // model.skeleton.returnToRest();
           }
-        });
-      });
+        })
+      })
     }
   }
 }

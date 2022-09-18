@@ -1,22 +1,8 @@
-import { extname, join, normalize } from "path";
+import { extname, join, normalize } from 'path'
 
-import {
-  Tools as BabylonTools,
-  Engine,
-  Scene,
-  Node,
-  Camera,
-  Mesh,
-  Material,
-} from "@babylonjs/core";
+import { Tools as BabylonTools, Engine, Scene, Node, Camera, Mesh, Material } from '@babylonjs/core'
 
-import {
-  ICommonMetadata,
-  IEditorPreferences,
-  IMaterialMetadata,
-  IMeshMetadata,
-  ITransformNodeMetadata,
-} from "./types";
+import { ICommonMetadata, IEditorPreferences, IMaterialMetadata, IMeshMetadata, ITransformNodeMetadata } from './types'
 
 export class Tools {
   /**
@@ -24,13 +10,13 @@ export class Tools {
    * @param object the object to return its constructor name.
    */
   public static GetConstructorName(object: any): string {
-    let name = object && object.constructor ? object.constructor.name : "";
+    let name = object && object.constructor ? object.constructor.name : ''
 
-    if (name === "") {
-      name = typeof object;
+    if (name === '') {
+      name = typeof object
     }
 
-    return name;
+    return name
   }
 
   /**
@@ -38,8 +24,8 @@ export class Tools {
    * @param node defines the reference to the node to get its metadatas.
    */
   public static GetNodeMetadata(node: Node): ICommonMetadata {
-    node.metadata = node.metadata ?? {};
-    return node.metadata;
+    node.metadata = node.metadata ?? {}
+    return node.metadata
   }
 
   /**
@@ -47,17 +33,15 @@ export class Tools {
    * @param mesh defines the reference to the mesh to get its metadatas.
    */
   public static GetMeshMetadata(mesh: Mesh): IMeshMetadata {
-    return this.GetNodeMetadata(mesh) as IMeshMetadata;
+    return this.GetNodeMetadata(mesh) as IMeshMetadata
   }
 
   /**
    * Returns the metadatas of the given transform node.
    * @param transformNode defines the reference to the transform node to get its metadatas.
    */
-  public static GetTransformNodeMetadata(
-    transformNode: Mesh
-  ): ITransformNodeMetadata {
-    return this.GetNodeMetadata(transformNode) as ITransformNodeMetadata;
+  public static GetTransformNodeMetadata(transformNode: Mesh): ITransformNodeMetadata {
+    return this.GetNodeMetadata(transformNode) as ITransformNodeMetadata
   }
 
   /**
@@ -65,8 +49,8 @@ export class Tools {
    * @param material defines the reference to the material to get its metadatas.
    */
   public static GetMaterialMetadata(material: Material): IMaterialMetadata {
-    material.metadata = material.metadata ?? {};
-    return material.metadata;
+    material.metadata = material.metadata ?? {}
+    return material.metadata
   }
 
   /**
@@ -75,19 +59,16 @@ export class Tools {
    * @param relativePath defines the relative path of the TS file to get its JS source file path.
    * @returns the absolute path to the attached JS file.
    */
-  public static GetSourcePath(
-    workspaceDir: string,
-    relativePath: string
-  ): string {
-    const extension = extname(relativePath);
-    const extensionIndex = relativePath.lastIndexOf(extension);
+  public static GetSourcePath(workspaceDir: string, relativePath: string): string {
+    const extension = extname(relativePath)
+    const extensionIndex = relativePath.lastIndexOf(extension)
 
     if (extensionIndex === -1) {
-      return "";
+      return ''
     }
 
-    const jsName = normalize(`${relativePath.substr(0, extensionIndex)}.js`);
-    return join(workspaceDir, "build", jsName);
+    const jsName = normalize(`${relativePath.substr(0, extensionIndex)}.js`)
+    return join(workspaceDir, 'build', jsName)
   }
 
   /**
@@ -96,7 +77,7 @@ export class Tools {
    * "All but 6 of the 128 bits of the ID are randomly generated, which means that for any two ids, there's a 1 in 2^^122 (or 5.3x10^^36) chance they'll collide"
    */
   public static RandomId(): string {
-    return BabylonTools.RandomId();
+    return BabylonTools.RandomId()
   }
 
   /**
@@ -107,7 +88,7 @@ export class Tools {
     return (scene.meshes as Node[])
       .concat(scene.lights as Node[])
       .concat(scene.cameras as Node[])
-      .concat(scene.transformNodes as Node[]);
+      .concat(scene.transformNodes as Node[])
   }
 
   /**
@@ -115,18 +96,15 @@ export class Tools {
    * @param element the element being possibily a child of the given parent.
    * @param parent the parent to check.
    */
-  public static IsElementChildOf(
-    element: HTMLElement,
-    parent: HTMLElement
-  ): boolean {
+  public static IsElementChildOf(element: HTMLElement, parent: HTMLElement): boolean {
     while (element.parentElement) {
       if (element === parent) {
-        return true;
+        return true
       }
-      element = element.parentElement;
+      element = element.parentElement
     }
 
-    return false;
+    return false
   }
 
   /**
@@ -134,16 +112,14 @@ export class Tools {
    * @param timeMs the time in milliseconds to wait.
    */
   public static Wait(timeMs: number): Promise<void> {
-    return new Promise<void>((resolve) => setTimeout(() => resolve(), timeMs));
+    return new Promise<void>((resolve) => setTimeout(() => resolve(), timeMs))
   }
 
   /**
    * Waits for the next animation frame.
    */
   public static WaitNextAnimationFrame(): Promise<void> {
-    return new Promise<void>((resolve) =>
-      requestAnimationFrame(() => resolve())
-    );
+    return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
   }
 
   /**
@@ -151,9 +127,8 @@ export class Tools {
    * @param array the array to filter.
    */
   public static Distinct<T>(array: T[]): T[] {
-    const unique = (value: T, index: number, self: T[]) =>
-      self.indexOf(value) === index;
-    return array.filter(unique);
+    const unique = (value: T, index: number, self: T[]) => self.indexOf(value) === index
+    return array.filter(unique)
   }
 
   /**
@@ -163,16 +138,16 @@ export class Tools {
    */
   public static SortAlphabetically(array: any[], property?: string): any[] {
     array.sort((a, b) => {
-      a = property ? a[property] : a;
-      b = property ? b[property] : b;
+      a = property ? a[property] : a
+      b = property ? b[property] : b
 
-      a = a.toUpperCase();
-      b = b.toUpperCase();
+      a = a.toUpperCase()
+      b = b.toUpperCase()
 
-      return a < b ? -1 : a > b ? 1 : 0;
-    });
+      return a < b ? -1 : a > b ? 1 : 0
+    })
 
-    return array;
+    return array
   }
 
   /**
@@ -182,9 +157,9 @@ export class Tools {
    */
   public static CloneObject<T>(object: T): T {
     if (!object) {
-      return object;
+      return object
     }
-    return JSON.parse(JSON.stringify(object));
+    return JSON.parse(JSON.stringify(object))
   }
 
   /**
@@ -193,12 +168,12 @@ export class Tools {
    * @param path defines the path of the property to get;
    */
   public static GetProperty<T>(object: any, path: string): T {
-    const split = path.split(".");
+    const split = path.split('.')
     for (let i = 0; i < split.length; i++) {
-      object = object[split[i]];
+      object = object[split[i]]
     }
 
-    return object;
+    return object
   }
 
   /**
@@ -207,22 +182,20 @@ export class Tools {
    * @param path the path of the property to get.
    */
   public static GetEffectiveProperty<T>(object: any, path: string): T {
-    const split = path.split(".");
+    const split = path.split('.')
     for (let i = 0; i < split.length - 1; i++) {
-      object = object[split[i]];
+      object = object[split[i]]
     }
 
-    return object;
+    return object
   }
 
   /**
    * Returns the saved editor preferences (zoom, etc.).
    */
   public static GetEditorPreferences(): IEditorPreferences {
-    const settings = JSON.parse(
-      localStorage.getItem("babylonjs-editor-preferences") ?? "{ }"
-    ) as IEditorPreferences;
-    return settings;
+    const settings = JSON.parse(localStorage.getItem('babylonjs-editor-preferences') ?? '{ }') as IEditorPreferences
+    return settings
   }
 
   /**
@@ -230,10 +203,7 @@ export class Tools {
    * @param engine the engine used to render the scene to take as screenshot.
    * @param camera the camera that should be used for the screenshot.
    */
-  public static async CreateScreenshot(
-    engine: Engine,
-    camera: Camera
-  ): Promise<string> {
+  public static async CreateScreenshot(engine: Engine, camera: Camera): Promise<string> {
     return BabylonTools.CreateScreenshotAsync(
       engine,
       camera,
@@ -241,23 +211,23 @@ export class Tools {
         width: 3840,
         height: 2160,
       },
-      "image/png"
-    );
+      'image/png'
+    )
   }
 
   /**
    * Shows the open file dialog and returns the selected file.
    */
   public static async ShowNativeOpenFileDialog(): Promise<File> {
-    const files = await this._ShowOpenFileDialog(false);
-    return files[0];
+    const files = await this._ShowOpenFileDialog(false)
+    return files[0]
   }
 
   /**
    * Shows the open multiple files dialog and returns the selected files.
    */
   public static async ShowNativeOpenMultipleFileDialog(): Promise<File[]> {
-    return this._ShowOpenFileDialog(true);
+    return this._ShowOpenFileDialog(true)
   }
 
   /**
@@ -265,23 +235,23 @@ export class Tools {
    */
   private static async _ShowOpenFileDialog(multiple: boolean): Promise<File[]> {
     return new Promise<File[]>((resolve, reject) => {
-      const input = document.createElement("input");
-      input.type = "file";
-      input.multiple = multiple;
-      input.addEventListener("change", () => {
-        input.remove();
+      const input = document.createElement('input')
+      input.type = 'file'
+      input.multiple = multiple
+      input.addEventListener('change', () => {
+        input.remove()
 
         if (input.files?.length) {
-          const files: File[] = [];
+          const files: File[] = []
           for (let i = 0; i < input.files.length; i++) {
-            files.push(input.files.item(i)!);
+            files.push(input.files.item(i)!)
           }
-          return resolve(files);
+          return resolve(files)
         }
-        reject("User decided to not choose any files.");
-      });
-      input.click();
-    });
+        reject('User decided to not choose any files.')
+      })
+      input.click()
+    })
   }
 
   /**
@@ -290,16 +260,16 @@ export class Tools {
    */
   public static GetExtensionFromMimeType(mimeType: string): string {
     switch (mimeType.toLowerCase()) {
-      case "image/png":
-        return ".png";
-      case "image/jpg":
-        return ".jpg";
-      case "image/jpeg":
-        return ".jpeg";
-      case "image/bmp":
-        return ".bmp";
+      case 'image/png':
+        return '.png'
+      case 'image/jpg':
+        return '.jpg'
+      case 'image/jpeg':
+        return '.jpeg'
+      case 'image/bmp':
+        return '.bmp'
       default:
-        return ".png";
+        return '.png'
     }
   }
 
@@ -315,8 +285,8 @@ export class Tools {
         undefined,
         true,
         (err) => reject(err)
-      );
-    });
+      )
+    })
   }
 
   /**
@@ -325,11 +295,7 @@ export class Tools {
    * @param useArrayBuffer defines a boolean indicating that date must be returned as ArrayBuffer.
    * @param onProgress callback called while file is loading (if the server supports this mode).
    */
-  public static async LoadFile<T = string | ArrayBuffer>(
-    url: string,
-    useArrayBuffer: boolean,
-    onProgress?: (data: any) => void
-  ): Promise<T> {
+  public static async LoadFile<T = string | ArrayBuffer>(url: string, useArrayBuffer: boolean, onProgress?: (data: any) => void): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       BabylonTools.LoadFile(
         url,
@@ -338,7 +304,7 @@ export class Tools {
         undefined,
         useArrayBuffer,
         (_, e) => reject(e)
-      );
-    });
+      )
+    })
   }
 }
