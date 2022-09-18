@@ -12,6 +12,8 @@
     "prepare": "npm run build",
     "preversion": "npm run format && git add -A src",
     "postversion": "git push origin && git push origin --tags",
+    "prepublish": "npm run build",
+    "postpublish": "npm run clean",
     "all": "npm run prepare && npm run version && npm run postversion"
   },
   "keywords": [
