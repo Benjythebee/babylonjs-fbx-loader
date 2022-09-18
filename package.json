@@ -14,12 +14,20 @@
     "postversion": "git push origin && git push origin --tags",
     "all": "npm run clean && npm run prepare && npm run version && npm run postversion"
   },
-  "keywords": [],
-  "author": "Benjy Larcher",
+  "keywords": ["FBX","loader","babylonjs","threejs"],
+  "author": "Benjythebee",
   "license": "ISC",
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "directory": "https://github.com/Benjythebee/babylonjs-fbx-loader"
+  },
+  "bugs": {
+    "url": "https://github.com/Benjythebee/babylonjs-fbx-loader/issues"
+  },
+  "homepage": "https://github.com/Benjythebee/babylonjs-fbx-loader",
   "dependencies": {
     "@babylonjs/core": "^5.24.0",
     "@babylonjs/loaders": "^5.24.0",
