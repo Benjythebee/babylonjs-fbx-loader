@@ -10,6 +10,7 @@ import { parseText, FBXReader, FBXData, FBXReaderNode } from 'fbx-parser'
 
 import { ISceneLoaderPluginAsync, ISceneLoaderPluginExtensions, ISceneLoaderProgressEvent, ISceneLoaderAsyncResult, Scene, AssetContainer, Bone, TransformNode, Logger, Material, SceneLoader, EngineStore } from '@babylonjs/core'
 import '@babylonjs/loaders'
+import '@babylonjs/materials'
 import { FBXMesh } from './mesh/mesh'
 import { FBXGeometry, IFBXGeometryResult } from './mesh/geometry'
 
@@ -61,7 +62,7 @@ export class FBXLoader implements ISceneLoaderPluginAsync {
    * Constructor.
    * @param writeTextures definess wether or not texture should be written on disk or converted as blob Urls.
    */
-  public constructor(public writeTextures: boolean = true) {
+  public constructor(public writeTextures: boolean = false) {
     // Empty for now...
   }
 

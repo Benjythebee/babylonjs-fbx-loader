@@ -1,7 +1,7 @@
 import { basename, extname, join } from 'path'
 
 import { INumberDictionary, Undefinable } from '../types'
-
+import bufferToDataUrl from 'buffer-to-data-url'
 import { FBXReaderNode } from 'fbx-parser'
 import { Texture, Scene, StandardMaterial, Color3 } from '@babylonjs/core'
 
@@ -152,7 +152,6 @@ export class FBXMaterial {
 
       const fileName = basename(filePath)
       let fileUrl = join(rootUrl, fileName)
-
       const content = v.node('Content')?.prop(0) as Undefinable<string | Buffer>
       if (!Buffer.isBuffer(content)) {
         continue
@@ -164,23 +163,17 @@ export class FBXMaterial {
 
       if (content.length) {
         if (writeTextures) {
+          console.log('UNHANDLED: Write texture for video node')
           //@TODO: understand what this is for.
           //writeFileSync(fileUrl, Buffer.from(content), { encoding: 'binary' })
         } else {
-          const blob = new Blob([content])
-          fileUrl = URL.createObjectURL(blob)
+          // FIX: @see https://github.com/Benjythebee/babylonjs-fbx-loader/issues/1
+          fileUrl = 'data:application/octet-stream;base64,'
+          fileUrl += Buffer.from(content).toString('base64')
         }
       }
 
-      const texture = new Texture(fileUrl, scene, !useMipMap, undefined, undefined, undefined, () => {
-        if (!writeTextures) {
-          URL.revokeObjectURL(fileUrl)
-        }
-      })
-
-      if (!writeTextures) {
-        texture.onLoadObservable.addOnce(() => URL.revokeObjectURL(fileUrl))
-      }
+      const texture = new Texture(fileUrl, scene, !useMipMap, undefined, undefined, undefined)
 
       result[id] = texture
     }
