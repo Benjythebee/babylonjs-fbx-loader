@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+      "sourceMap": true,
+      "lib": ["es2017", "dom"],
+      "target": "es6",
+      "typeRoots": ["./node_modules/*"],
+      "types": ["node","@types/react"],
+      "outDir": "./dist",
+      "jsx":"react",
+      "module": "commonjs",
+      "resolveJsonModule":true,
+      "declaration": true,
+      "skipLibCheck": true,
+      "experimentalDecorators": true,
+      "strict": true,
+      "stripInternal": true
+    },
+    "exclude": ["node_modules"],
+    "include": [
+      "./src/**/*"]
+  }
+  
