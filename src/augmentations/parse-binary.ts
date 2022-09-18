@@ -1,5 +1,6 @@
-const binary_reader_1 = require('@picode/binary-reader')
-const pako_1 = require('pako')
+import { BinaryReader } from '@picode/binary-reader'
+import * as pako_1 from 'pako'
+
 const MAGIC = Uint8Array.from('Kaydara FBX Binary\x20\x20\x00\x1a\x00'.split(''), function (v) {
   return v.charCodeAt(0)
 })
@@ -11,7 +12,7 @@ const MAGIC = Uint8Array.from('Kaydara FBX Binary\x20\x20\x00\x1a\x00'.split('')
 export function parseBinary(binary: any) {
   if (binary.length < MAGIC.length) throw 'Not a binary FBX file'
 
-  const data = new binary_reader_1.BinaryReader(binary)
+  const data = new BinaryReader(binary)
 
   const magic = data.readUint8Array(MAGIC.length).every(function (v: any, i: any) {
     return v === MAGIC[i]
@@ -138,9 +139,9 @@ function readPropertyArray(data: any, reader: Function) {
   const encoding = data.readUint32()
   const compressedLength = data.readUint32()
 
-  let arrayData = new binary_reader_1.BinaryReader(data.readUint8Array(compressedLength))
+  let arrayData = new BinaryReader(data.readUint8Array(compressedLength))
   if (encoding == 1) {
-    arrayData = new binary_reader_1.BinaryReader(pako_1.inflate(arrayData.binary))
+    arrayData = new BinaryReader(pako_1.inflate(arrayData.binary))
   }
 
   const value = [] as any

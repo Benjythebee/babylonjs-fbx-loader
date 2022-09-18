@@ -11,24 +11,23 @@ The goal of this plugin is to allow FBX loading on BABYLONJS web.
 3. Make sure your code is formatted using prettier;
 either activate "format on save" on your IDE or run `npm run format`
 
-4. Run `npm run test` to run a web page at `http://localhost:9000` that will attempt to load an FBX file in a babylon scene
+4. Run `npm run start` to run a web page at `http://localhost:9000` that will attempt to load an FBX file in a babylon scene
 
 
 ## Testing
 
-There are currently no tests;
-
-See step 4 above.
+1. Run `npm run test` to run tests in the test folder.
 
 ## Contributing
 Feel free to make a PR and help out!
 
-
+Please make sure your code is formatted using prettier.
 ## Todo:
 - [ ] Clean up unused functions and code from the Editor repo
 - [ ] Load material from the FBX
 - [ ] Add better test file than the current dropbox link in the index.html test file
-- [ ] Add tests
+- [x] Add tests
+- [ ] Improve tests and add more tests
 - [ ] add more to this todo list
 
 
