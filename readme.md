@@ -4,6 +4,8 @@ The code was extracted from the [BabylonJS Editor repo](https://github.com/Babyl
 
 The goal of this plugin is to allow FBX loading on BABYLONJS web.
 
+Prototype release can be obtained via `npm install babylonjs-fbx-loader`
+
 ## Development
 
 1. Clone repo
