@@ -15,9 +15,10 @@ const createScene = (engine: Engine, canvas: HTMLCanvasElement) => {
 
   // Camera
   const camera = new ArcRotateCamera('Camera', 1.57, 1.4, 2.4, new Vector3(0, 0, 0), scene)
-  camera.setTarget(new Vector3(0, 1, 0))
   camera.beta = 1.4
   camera.attachControl(canvas, true)
+  camera.setPosition(new Vector3(32, 5, 47))
+  camera.setTarget(new Vector3(0, 5, 0))
   camera.lowerRadiusLimit = 1.5
   camera.upperRadiusLimit = 10
   camera.wheelPrecision = 100
@@ -56,7 +57,7 @@ export const generate = () => {
   canvas.style.cssText = 'width: 100%;height:100%; touch-action: none;'
 
   SceneLoader.ShowLoadingScreen = false
-
+  Engine.Instances.forEach((e) => e.dispose())
   const engine = new Engine(canvas, true, { antialias: true, stencil: true })
 
   let scene = createScene(engine, canvas)
