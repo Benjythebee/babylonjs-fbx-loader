@@ -1,6 +1,6 @@
 {
   "name": "babylonjs-fbx-loader",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "An FBX loader for BABYLONJS",
   "lib": "dist/index.d.ts",
   "main": "dist/index.js",
