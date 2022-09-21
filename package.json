@@ -2,8 +2,8 @@
   "name": "babylonjs-fbx-loader",
   "version": "0.0.3",
   "description": "An FBX loader for BABYLONJS",
-  "lib": "dist/src/index.d.ts",
-  "main": "dist/src/index.js",
+  "lib": "dist/index.d.ts",
+  "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf dist",
     "format": "prettier --write \"src/**/*.ts\"",
