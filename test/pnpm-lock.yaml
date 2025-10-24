@@ -18,8 +18,8 @@ importers:
         specifier: ^8.33.2
         version: 8.33.2(@babylonjs/core@8.33.2)
       babylonjs-fbx-loader:
-        specifier: file:..\dist
-        version: file:../dist(@babylonjs/core@8.33.2)(@babylonjs/loaders@8.33.2(@babylonjs/core@8.33.2)(babylonjs-gltf2interface@8.33.2))(@babylonjs/materials@8.33.2(@babylonjs/core@8.33.2))(@types/node@18.19.130)(rollup@4.52.5)(typescript@5.9.3)
+        specifier: ^1.0.0
+        version: 1.0.0(@babylonjs/core@8.33.2)(@babylonjs/loaders@8.33.2(@babylonjs/core@8.33.2)(babylonjs-gltf2interface@8.33.2))(@babylonjs/materials@8.33.2(@babylonjs/core@8.33.2))(@types/node@18.19.130)(rollup@4.52.5)(typescript@5.9.3)
       vite:
         specifier: ^7.1.12
         version: 7.1.12(@types/node@18.19.130)
@@ -474,8 +474,8 @@ packages:
   argparse@1.0.10:
     resolution: {integrity: sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==}
 
-  babylonjs-fbx-loader@file:../dist:
-    resolution: {directory: ../dist, type: directory}
+  babylonjs-fbx-loader@1.0.0:
+    resolution: {integrity: sha512-m3S94nBW0/8iYNkeINuX6q62tA8HHmVEtms76Nh1NMBhyNmow6MnyAaeJCAvNyaDLujbxiuLUgimG8pm1gBotg==}
     engines: {node: '>=20'}
     peerDependencies:
       '@babylonjs/core': ^8.33.2
@@ -1141,7 +1141,7 @@ snapshots:
     dependencies:
       sprintf-js: 1.0.3
 
-  babylonjs-fbx-loader@file:../dist(@babylonjs/core@8.33.2)(@babylonjs/loaders@8.33.2(@babylonjs/core@8.33.2)(babylonjs-gltf2interface@8.33.2))(@babylonjs/materials@8.33.2(@babylonjs/core@8.33.2))(@types/node@18.19.130)(rollup@4.52.5)(typescript@5.9.3):
+  babylonjs-fbx-loader@1.0.0(@babylonjs/core@8.33.2)(@babylonjs/loaders@8.33.2(@babylonjs/core@8.33.2)(babylonjs-gltf2interface@8.33.2))(@babylonjs/materials@8.33.2(@babylonjs/core@8.33.2))(@types/node@18.19.130)(rollup@4.52.5)(typescript@5.9.3):
     dependencies:
       '@babylonjs/core': 8.33.2
       '@babylonjs/loaders': 8.33.2(@babylonjs/core@8.33.2)(babylonjs-gltf2interface@8.33.2)

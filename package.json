@@ -2,9 +2,9 @@
   "name": "babylonjs-fbx-loader",
   "version": "1.0.0",
   "description": "An FBX loader for BABYLONJS",
-  "main": "index.js",
-  "module": "index.module.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.module.js",
+  "types": "dist/index.d.ts",
   "engines": {
     "node": ">=20"
   },
