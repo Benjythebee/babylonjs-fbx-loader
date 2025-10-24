@@ -1,10 +1,12 @@
-# FBX Loader plugin for Babylonjs
+# WIP FBX Loader plugin for Babylonjs
 This is an opensource plugin to load FBX files in BabylonJS.
 The code was extracted from the [BabylonJS Editor repo](https://github.com/BabylonJS/Editor/blob/master/src/renderer/editor/loaders/fbx/loader.ts) so props goes to the dev team over there.
 
 The goal of this plugin is to allow FBX loading on BABYLONJS web.
 
 Prototype release can be obtained via `pnpm install babylonjs-fbx-loader`
+
+Demo: [https://benjythebee.github.io/babylonjs-fbx-loader/](https://benjythebee.github.io/babylonjs-fbx-loader/)
 
 ## Development
 
