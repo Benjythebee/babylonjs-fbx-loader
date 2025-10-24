@@ -4,31 +4,28 @@ The code was extracted from the [BabylonJS Editor repo](https://github.com/Babyl
 
 The goal of this plugin is to allow FBX loading on BABYLONJS web.
 
-Prototype release can be obtained via `npm install babylonjs-fbx-loader`
+Prototype release can be obtained via `pnpm install babylonjs-fbx-loader`
 
 ## Development
 
 1. Clone repo
-2. Install dependencies using `npm i`
+2. Install dependencies using `pnpm i`
 3. Make sure your code is formatted using prettier;
-either activate "format on save" on your IDE or run `npm run format`
 
-4. Run `npm run start` to run a web page at `http://localhost:9000` that will attempt to load an FBX file in a babylon scene
+4. Run `pnpm run start` to run a web page at `http://localhost:5173` that will attempt to load an FBX file in a babylon scene
 
-
-## Testing
-
-1. Run `npm run test` to run tests in the test folder.
 
 ## Contributing
 Feel free to make a PR and help out!
 
 Please make sure your code is formatted using prettier.
 ## Todo:
+- [x] Get a model loaded
+- [x] Babylon 8
 - [ ] Clean up unused functions and code from the Editor repo
 - [ ] Load material from the FBX
 - [ ] Add better test file than the current dropbox link in the index.html test file
-- [x] Add tests
+- [ ] Add tests
 - [ ] Improve tests and add more tests
 - [ ] add more to this todo list
 
@@ -55,13 +52,14 @@ Using ES6 babylon libraries
 
 ```js
 import {FBXLoader} from "babylonjs-fbx-loader"
+import { RegisterSceneLoaderPlugin } from "@babylonjs/core/Loading/sceneLoader";
 import {SceneLoader} from "@babylonjs/core"
 
-if (SceneLoader) {
-  //Add this loader into the register plugin
-  SceneLoader.RegisterPlugin(new FBXLoader())
-}
 
+if (RegisterSceneLoaderPlugin) {
+  //Add this loader into the register plugin
+  RegisterSceneLoaderPlugin(new FBXLoader())
+}
 [...]
 
 let mesh = await SceneLoader.ImportMeshAsync(null, 'path/to', 'filename.fbx', scene)

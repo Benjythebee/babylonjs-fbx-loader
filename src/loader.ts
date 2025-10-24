@@ -122,7 +122,6 @@ export class FBXFileLoader implements ISceneLoaderPluginAsync {
   public async loadAssetContainerAsync(scene: Scene, data: any, rootUrl: string, _?: (event: ISceneLoaderProgressEvent) => void, fileName?: string): Promise<AssetContainer> {
     const result = new AssetContainer(scene)
     scene._blockEntityCollection = true
-    console.log(data)
     // Parse FBX
     let fbx: FBXData
     try {

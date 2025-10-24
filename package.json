@@ -13,7 +13,8 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "vite serve",
     "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest --config jest.config.js --no-cache",
-    "build": "npm run clean && vite build && cp package.json readme.md dist/"
+    "build": "npm run clean && vite build && cp package.json readme.md dist/",
+    "build:page":"(cd gh-page && npm run build:page)"
   },
   "keywords": [
     "FBX",
