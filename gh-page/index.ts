@@ -22,7 +22,12 @@ function start() {
     }
   }
 }
+
+/**
+ * Start the scene
+ */
 start()
+
 let loadWolfButton = document.getElementById('wolf')!
 let loadMechaButton = document.getElementById('mecha')!
 
@@ -68,3 +73,38 @@ loadMechaButton.onclick = () => {
   cleanScene()
   loadMechaModel()
 }
+
+
+// Drag and drop functionality
+document.addEventListener('dragover', (event) => {
+  event.preventDefault()
+})
+
+document.addEventListener('drop', async (event) => {
+  event.preventDefault()
+  
+  const files = event.dataTransfer?.files
+  if (!files || files.length === 0) return
+  
+  const file = files[0]
+  if (!file.name.toLowerCase().endsWith('.fbx')) {
+    console.log('Please drop an FBX file')
+    return
+  }
+  
+  const url = URL.createObjectURL(file)
+  
+  try {
+    cleanScene()
+    const result = await SceneLoader.ImportMeshAsync(null, '', url, scene,null,'.fbx')
+    console.log('Loaded FBX file:', result)
+    result.meshes.forEach((mesh) => {
+      mesh.isPickable = true
+      mesh.scaling.scaleInPlace(0.05)
+    })
+  } catch (error) {
+    console.error('Error loading FBX file:', error)
+  } finally {
+    URL.revokeObjectURL(url)
+  }
+})
