@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "sourceMap": true,
+      "lib": ["ESNext", "dom"],
+      "target": "esnext",
+      "types": ["node"],
+      "outDir": "./dist",
+      "module": "preserve",
+      "moduleResolution": "bundler",
+      "resolveJsonModule":true,
+      "declaration": true,
+      "skipLibCheck": true,
+      "experimentalDecorators": true,
+      "strict": true,
+      "stripInternal": true
+    },
+    "exclude": ["node_modules"],
+    "include": [
+      "./*.ts"]
+  }
+  
