@@ -135,7 +135,7 @@ export interface ICommonMetadata {
   /**
    * Defines the optional CSS properties for custom rendering in editor's graph.
    */
-  editorGraphStyles?: React.CSSProperties
+  editorGraphStyles?: HTMLStyleElement['style']
 
   /**
    * Any other key

@@ -1,6 +1,6 @@
 // Shamely inspiered by ThreeJS FBX loader: https://threejs.org/examples/webgl_loader_fbx.html
 
-import { join, resolve } from 'path'
+import { join, resolve } from './utils/path-utils'
 
 import { INumberDictionary, Nullable } from './types'
 
@@ -43,11 +43,11 @@ export interface IFBXLoaderRuntime {
   cachedMaterials: INumberDictionary<Material>
 }
 
-export class FBXLoader implements ISceneLoaderPluginAsync {
+export class FBXFileLoader implements ISceneLoaderPluginAsync {
   /**
    * The friendly name of this plugin.
    */
-  public name: string = 'Babylon.JS FBX Loader'
+  public name: string = 'FBX Loader'
 
   /**
    * The file extensions supported by this plugin.
@@ -57,7 +57,6 @@ export class FBXLoader implements ISceneLoaderPluginAsync {
       isBinary: true,
     },
   }
-
   /**
    * Constructor.
    * @param writeTextures definess wether or not texture should be written on disk or converted as blob Urls.
@@ -94,6 +93,7 @@ export class FBXLoader implements ISceneLoaderPluginAsync {
       transformNodes: container.transformNodes,
       animationGroups: container.animationGroups,
       particleSystems: container.particleSystems,
+      spriteManagers: [],
     }
   }
 
@@ -122,13 +122,14 @@ export class FBXLoader implements ISceneLoaderPluginAsync {
   public async loadAssetContainerAsync(scene: Scene, data: any, rootUrl: string, _?: (event: ISceneLoaderProgressEvent) => void, fileName?: string): Promise<AssetContainer> {
     const result = new AssetContainer(scene)
     scene._blockEntityCollection = true
-
+    console.log(data)
     // Parse FBX
     let fbx: FBXData
     try {
       // try binary file encoding
       fbx = parseBinary(Buffer.from(data))
     } catch (e) {
+      console.warn(e)
       try {
         // try text file encoding
         fbx = parseText(Buffer.from(data).toString('utf-8'))
@@ -266,4 +267,16 @@ export class FBXLoader implements ISceneLoaderPluginAsync {
     scene._blockEntityCollection = false
     return result
   }
+}
+
+export class FBXLoader {
+  public name = "fbx";
+  public extensions = {
+      '.fbx': { isBinary: true },
+  };
+
+  public createPlugin() {
+      return new FBXFileLoader();
+  }
+
 }

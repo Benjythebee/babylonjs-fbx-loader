@@ -1,13 +1,12 @@
 {
     "compilerOptions": {
       "sourceMap": true,
-      "lib": ["es2017", "dom"],
-      "target": "es6",
-      "typeRoots": ["./node_modules/*"],
-      "types": ["node","@types/react"],
+      "lib": ["ESNext", "dom"],
+      "target": "esnext",
+      "types": ["node"],
       "outDir": "./dist",
-      "jsx":"react",
-      "module": "commonjs",
+      "module": "preserve",
+      "moduleResolution": "bundler",
       "resolveJsonModule":true,
       "declaration": true,
       "skipLibCheck": true,

@@ -1,11 +1,13 @@
 import { ArcRotateCamera, SceneLoader, Vector3 } from '@babylonjs/core'
+import { RegisterSceneLoaderPlugin } from "@babylonjs/core/Loading/sceneLoader";
 import { Scene } from '@babylonjs/core'
 // import { FBXLoader } from '../src/loader'
 import { FBXLoader } from '../src'
 import { generate } from './create-scene'
-if (SceneLoader) {
+
+if (RegisterSceneLoaderPlugin) {
   //Add this loader into the register plugin
-  SceneLoader.RegisterPlugin(new FBXLoader())
+  RegisterSceneLoaderPlugin(new FBXLoader())
 }
 
 let scene: Scene

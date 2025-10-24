@@ -1,4 +1,4 @@
-import { extname, join, normalize } from 'path'
+import { extname, join, normalize } from '../utils/path-utils'
 
 import { Tools as BabylonTools, Engine, Scene, Node, Camera, Mesh, Material } from '@babylonjs/core'
 

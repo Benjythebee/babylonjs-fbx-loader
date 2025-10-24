@@ -182,10 +182,10 @@ export class FBXSkeleton {
 				}
 				*/
 
-        b.setRestPose(b.getLocalMatrix())
+        b.setRestMatrix(b.getLocalMatrix())
         b.updateMatrix(b.getLocalMatrix(), false, false)
 
-        b._updateDifferenceMatrix(undefined, true)
+        b._updateAbsoluteBindMatrices(undefined, true)
       }
 
       // Assign

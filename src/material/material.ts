@@ -1,4 +1,4 @@
-import { basename, extname, join } from 'path'
+import { basename, extname, join } from '../utils/path-utils'
 
 import { INumberDictionary, Undefinable } from '../types'
 import bufferToDataUrl from 'buffer-to-data-url'
